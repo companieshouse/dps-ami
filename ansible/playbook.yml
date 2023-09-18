@@ -1,10 +1,10 @@
 ---
 
-- hosts: tuxedo
+- hosts: dps
   become: true
   roles:
     - aws-nvme-device-files
     - mounted-volume
     - epel
     - pip
-    - tuxedo
+    - dps

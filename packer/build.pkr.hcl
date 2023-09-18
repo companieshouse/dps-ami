@@ -10,8 +10,6 @@ build {
       "-e", "aws_region=${var.aws_region}",
       "-e", "resource_bucket_c_libraries_prefix=${var.resource_bucket_c_libraries_prefix}",
       "-e", "resource_bucket_name=${var.resource_bucket_name}",
-      "-e", "resource_bucket_tuxedo_license_prefix=${var.resource_bucket_tuxedo_license_prefix}",
-      "-e", "resource_bucket_tuxedo_prefix=${var.resource_bucket_tuxedo_prefix}",
       "-e", "resource_bucket_informix_prefix=${var.resource_bucket_informix_prefix}",
       "-e", "resource_bucket_informix_sdk_prefix=${var.resource_bucket_informix_sdk_prefix}",
       "-e", "resource_bucket_oracle_instant_client_prefix=${var.resource_bucket_oracle_instant_client_prefix}",

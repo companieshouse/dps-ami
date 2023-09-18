@@ -5,13 +5,13 @@ variable "ami_account_ids" {
 
 variable "ami_name_prefix" {
   type        = string
-  default     = "dps-tuxedo-ami"
+  default     = "dps-ami"
   description = "The prefix string that will be used for the name tags of the resulting AMI and snapshot(s); the version string will be appended automatically"
 }
 
 variable "ansible_host_alias" {
   type        = string
-  default     = "tuxedo"
+  default     = "dps"
   description = "The Ansible host alias"
 }
 
@@ -77,18 +77,6 @@ variable "resource_bucket_oracle_instant_client_prefix" {
   type        = string
   default     = "packages/oracle"
   description = "The object prefix for Oracle Instant Client packages within the S3 resources bucket"
-}
-
-variable "resource_bucket_tuxedo_license_prefix" {
-  type        = string
-  default     = "licenses/tuxedo"
-  description = "The object prefix for Tuxedo license files within the S3 resources bucket"
-}
-
-variable "resource_bucket_tuxedo_prefix" {
-  type        = string
-  default     = "packages/tuxedo"
-  description = "The object prefix for Tuxedo packages within the S3 resources bucket"
 }
 
 variable "root_volume_size_gb" {

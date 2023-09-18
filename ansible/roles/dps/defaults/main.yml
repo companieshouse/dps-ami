@@ -1,0 +1,22 @@
+---
+
+# Informix Client SDK
+informix_sdk_version: "410UC12"
+informix_sdk_install_directory: "/opt/informix-client-sdk/{{ informix_sdk_version }}"
+
+# Informix Workgroup Edition
+informix_service_user: informix
+informix_service_group: informix
+informix_version: "14.10"
+informix_install_directory: "/opt/informix/{{ informix_version }}"
+
+# Oracle Instant Client
+oracle_instant_client_version: 11.2.0.4.0
+oracle_instant_client_install_directory: /opt/oracle-instant-client/{{ oracle_instant_client_version }}
+oracle_instant_client_packages:
+  - basic
+  - precomp
+  - sdk
+
+system_locale: C
+

@@ -13,8 +13,17 @@ build {
       "-e", "resource_bucket_informix_prefix=${var.resource_bucket_informix_prefix}",
       "-e", "resource_bucket_informix_sdk_prefix=${var.resource_bucket_informix_sdk_prefix}",
       "-e", "resource_bucket_oracle_instant_client_prefix=${var.resource_bucket_oracle_instant_client_prefix}",
+      "-e", "resource_bucket_openjdk_prefix=${var.resource_bucket_openjdk_prefix}",
+      "-e", "resource_bucket_tomcat_prefix=${var.resource_bucket_tomcat_prefix}",
       "-e", "swap_volume_device_node=${var.swap_volume_device_node}",
       "-e", "swap_volume_enabled=${var.swap_volume_size_gb > 0 ? true : false}"
+    ]
+  }
+
+  provisioner "shell" {
+    inline = [
+      "sudo find / -name authorized_keys -delete",
+      "sudo find /root/.*history /home/*/.*history -delete"
     ]
   }
 }

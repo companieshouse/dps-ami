@@ -44,6 +44,12 @@ variable "aws_subnet_filter_name" {
   description = "The subnet filter string. Any filter described by the DescribeSubnets API documentation is valid. If multiple subnets match then the one with the most IPv4 addresses free will be used"
 }
 
+variable "kms_key_id" {
+  type        = string
+  default     = "alias/packer-builders-eu-west-2-kms"
+  description = "The KMS key ID or alias to use when encrypting the AMI EBS volumes; defaults to the AWS managed key if empty"
+}
+
 variable "playbook_file_path" {
   type        = string
   default     = "../ansible/playbook.yml"
@@ -58,13 +64,13 @@ variable "resource_bucket_c_libraries_prefix" {
 
 variable "resource_bucket_informix_prefix" {
   type        = string
-  default     = "packages/informix"
+  default     = "informix"
   description = "The object prefix for Informix packages within the S3 resources bucket"
 }
 
 variable "resource_bucket_informix_sdk_prefix" {
   type        = string
-  default     = "packages/informix"
+  default     = "informix"
   description = "The object prefix for Informix Client SDK packages within the S3 resources bucket"
 }
 
@@ -75,14 +81,44 @@ variable "resource_bucket_name" {
 
 variable "resource_bucket_oracle_instant_client_prefix" {
   type        = string
-  default     = "packages/oracle"
+  default     = "oracle/instant-client"
   description = "The object prefix for Oracle Instant Client packages within the S3 resources bucket"
+}
+
+variable "resource_bucket_openjdk_prefix" {
+  type        = string
+  default     = "openjdk"
+  description = "The object prefix for OpenJDK packages within the S3 resources bucket"
+}
+
+variable "resource_bucket_tomcat_prefix" {
+  type        = string
+  default     = "tomcat"
+  description = "The object prefix for Tomcat packages within the S3 resources bucket"
+}
+
+variable "root_volume_iops" {
+  type        = number
+  default     = 3000
+  description = "The baseline IOPS for the root EBS volume; 3000 is the gp3 default"
 }
 
 variable "root_volume_size_gb" {
   type        = number
   default     = 20
   description = "The EC2 instance root volume size in Gibibytes (GiB)"
+}
+
+variable "root_volume_throughput" {
+  type        = number
+  default     = 125
+  description = "The throughput, in MiB/s, for the root EBS volume; 125 is the gp3 default"
+}
+
+variable "ssh_clear_authorized_keys" {
+  type        = bool
+  default     = true
+  description = "Defines whether the authorized_keys file should be cleared, post-build"
 }
 
 variable "ssh_private_key_file" {

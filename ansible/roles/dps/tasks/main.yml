@@ -66,6 +66,68 @@
     state: directory
   register: temp_dir
 
+- name: Create OpenJDK installation directory
+  file:
+    path: "{{ openjdk_install_directory }}"
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: Download OpenJDK package
+  aws_s3:
+    bucket: "{{ resource_bucket_name }}"
+    object: "{{ resource_bucket_openjdk_prefix }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
+    dest: "{{ temp_dir.path }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
+    mode: get
+
+- name: Extract OpenJDK package
+  unarchive:
+    src: "{{ temp_dir.path }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
+    dest: "{{ openjdk_install_directory }}"
+    remote_src: yes
+    extra_opts:
+      - --strip-components=1
+
+- name: Set ownership of OpenJDK installation files
+  file:
+    path: "{{ openjdk_install_directory }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+
+- name: Create Tomcat installation directory
+  file:
+    path: "{{ tomcat_install_directory }}"
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: Download Tomcat package
+  aws_s3:
+    bucket: "{{ resource_bucket_name }}"
+    object: "{{ resource_bucket_tomcat_prefix }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ temp_dir.path }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    mode: get
+
+- name: Extract Tomcat package
+  unarchive:
+    src: "{{ temp_dir.path }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_install_directory }}"
+    remote_src: yes
+    extra_opts:
+      - --strip-components=1
+
+- name: Set ownership of Tomcat installation files
+  file:
+    path: "{{ tomcat_install_directory }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+
 - name: Download Oracle Instant Client archives
   aws_s3:
     bucket: "{{ resource_bucket_name }}"
@@ -128,7 +190,7 @@
     dest: "{{ temp_dir.path }}/informix-sdk-{{ informix_sdk_version }}.tar.gz"
     mode: get
 
-- name: Extract Download Informix Client SDK archive
+- name: Extract Informix Client SDK archive
   unarchive:
     src: "{{ temp_dir.path }}/informix-sdk-{{ informix_sdk_version }}.tar.gz"
     dest: "{{ informix_sdk_install_directory }}"
@@ -218,12 +280,6 @@
   tempfile:
     state: directory
   register: informix_license_temp_dir
-
-- name: Install OpenJDK to provide JRE for Informix license installer
-  yum:
-    name:
-      - java-11-openjdk-11.0.13.0.8-1.el7_9
-    state: latest
 
 - name: Download Informix license installer
   aws_s3:

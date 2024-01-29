@@ -97,6 +97,14 @@
     owner: root
     group: root
 
+- name: Create OpenJDK shell environment configuration
+  template:
+    src: opejdk.sh.j2
+    dest: /etc/profile.d/opejdk.sh
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Create Tomcat installation directory
   file:
     path: "{{ tomcat_install_directory }}"

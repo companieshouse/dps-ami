@@ -99,8 +99,8 @@
 
 - name: Create OpenJDK shell environment configuration
   template:
-    src: opejdk.sh.j2
-    dest: /etc/profile.d/opejdk.sh
+    src: openjdk.sh.j2
+    dest: /etc/profile.d/openjdk.sh
     owner: root
     group: root
     mode: '0644'

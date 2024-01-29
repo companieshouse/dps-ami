@@ -308,7 +308,7 @@
     dest: "{{ informix_license_temp_dir.path }}/informix_license_install.properties"
 
 - name: Install Informix license
-  command: "java -jar {{ informix_license_temp_dir.path }}/we_edition.jar -i silent -f {{ informix_license_temp_dir.path }}/informix_license_install.properties"
+  command: "{{ openjdk_install_directory }}/bin/java -jar {{ informix_license_temp_dir.path }}/we_edition.jar -i silent -f {{ informix_license_temp_dir.path }}/informix_license_install.properties"
 
 - name: Remove temporary directory for Informix license installer
   file:

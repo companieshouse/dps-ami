@@ -22,8 +22,8 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo find / -name authorized_keys -delete",
-      "sudo find /root/.*history /home/*/.*history -delete"
+      "sudo find /root /home -name authorized_keys -delete",
+      "sudo find /root /home -name '.*history' -delete"
     ]
   }
 }

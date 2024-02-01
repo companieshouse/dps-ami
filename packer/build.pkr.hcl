@@ -19,11 +19,4 @@ build {
       "-e", "swap_volume_enabled=${var.swap_volume_size_gb > 0 ? true : false}"
     ]
   }
-
-  provisioner "shell" {
-    inline = [
-      "sudo find /root /home -name authorized_keys -delete",
-      "sudo find /root /home -name '.*history' -delete"
-    ]
-  }
 }

@@ -327,8 +327,8 @@
     group: root
     mode: '0644'
 
-- name: Remount tmpfs filesystem at /tmp with 'noexec' option
-  ansible.posix.mount:
-    path: /tmp
-    opts: noexec
-    state: remounted
+# - name: Remount tmpfs filesystem at /tmp with 'noexec' option
+#   ansible.posix.mount:
+#     path: /tmp
+#     opts: noexec
+#     state: remounted

@@ -13,6 +13,7 @@ source "amazon-ebs" "builder" {
   iam_instance_profile      = "packer-builders-${var.aws_region}"
 
   launch_block_device_mappings {
+    delete_on_termination = true
     device_name           = "/dev/sda1"
     encrypted             = true
     iops                  = var.root_volume_iops
@@ -20,17 +21,20 @@ source "amazon-ebs" "builder" {
     throughput            = var.root_volume_throughput
     volume_size           = var.root_volume_size_gb
     volume_type           = "gp3"
-    delete_on_termination = true
   }
 
   dynamic "launch_block_device_mappings" {
     for_each = var.swap_volume_size_gb > 0 ? [1] : []
 
     content {
-      device_name = var.swap_volume_device_node
-      volume_size = var.swap_volume_size_gb
-      volume_type = "gp2"
       delete_on_termination = true
+      device_name           = var.swap_volume_device_node
+      encrypted             = true
+      iops                  = var.swap_volume_iops
+      kms_key_id            = var.kms_key_id
+      throughput            = var.swap_volume_throughput
+      volume_size           = var.swap_volume_size_gb
+      volume_type           = "gp3"
     }
   }
 
@@ -59,7 +63,7 @@ source "amazon-ebs" "builder" {
   }
 
   tags = {
-    Name    = "${var.ami_name_prefix}-${var.version}"
     Builder = "packer-{{packer_version}}"
+    Name    = "${var.ami_name_prefix}-${var.version}"
   }
 }

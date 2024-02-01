@@ -151,10 +151,22 @@ variable "swap_volume_device_node" {
   description = "The device node identifier for the swap volume"
 }
 
+variable "swap_volume_iops" {
+  type        = number
+  default     = 3000
+  description = "The baseline IOPS for the swap EBS volume; 3000 is the gp3 default"
+}
+
 variable "swap_volume_size_gb" {
   type        = number
   default     = 0
   description = "The EC2 instance swap volume size in Gibibytes (GiB); set to 0 to disable swap volume"
+}
+
+variable "swap_volume_throughput" {
+  type        = number
+  default     = 125
+  description = "The throughput, in MiB/s, for the swap EBS volume; 125 is the gp3 default"
 }
 
 variable "version" {

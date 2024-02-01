@@ -66,45 +66,6 @@
     state: directory
   register: temp_dir
 
-- name: Create OpenJDK installation directory
-  file:
-    path: "{{ openjdk_install_directory }}"
-    owner: root
-    group: root
-    mode: '0755'
-    state: directory
-
-- name: Download OpenJDK package
-  aws_s3:
-    bucket: "{{ resource_bucket_name }}"
-    object: "{{ resource_bucket_openjdk_prefix }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
-    dest: "{{ temp_dir.path }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
-    mode: get
-
-- name: Extract OpenJDK package
-  unarchive:
-    src: "{{ temp_dir.path }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
-    dest: "{{ openjdk_install_directory }}"
-    remote_src: yes
-    extra_opts:
-      - --strip-components=1
-
-- name: Set ownership of OpenJDK installation files
-  file:
-    path: "{{ openjdk_install_directory }}"
-    state: directory
-    recurse: yes
-    owner: root
-    group: root
-
-- name: Create OpenJDK shell environment configuration
-  template:
-    src: openjdk.sh.j2
-    dest: /etc/profile.d/openjdk.sh
-    owner: root
-    group: root
-    mode: '0644'
-
 - name: Create Tomcat installation directory
   file:
     path: "{{ tomcat_install_directory }}"
@@ -289,6 +250,12 @@
     state: directory
   register: informix_license_temp_dir
 
+- name: Install OpenJDK to provide JRE for Informix license installer
+  yum:
+    name:
+      - java-11-openjdk-11.0.13.0.8-1.el7_9
+    state: latest
+
 - name: Download Informix license installer
   aws_s3:
     bucket: "{{ resource_bucket_name }}"
@@ -314,6 +281,51 @@
   file:
     path: informix_license_temp_dir.path
     state: absent
+
+- name: Remove OpenJDK used for Informix license install
+  yum:
+    name:
+      - java-11-openjdk-11.0.13.0.8-1.el7_9
+    state: absent
+
+- name: Create OpenJDK installation directory
+  file:
+    path: "{{ openjdk_install_directory }}"
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: Download OpenJDK package
+  aws_s3:
+    bucket: "{{ resource_bucket_name }}"
+    object: "{{ resource_bucket_openjdk_prefix }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
+    dest: "{{ temp_dir.path }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
+    mode: get
+
+- name: Extract OpenJDK package
+  unarchive:
+    src: "{{ temp_dir.path }}/openjdk-{{ openjdk_version }}_linux-x64_bin.tar.gz"
+    dest: "{{ openjdk_install_directory }}"
+    remote_src: yes
+    extra_opts:
+      - --strip-components=1
+
+- name: Set ownership of OpenJDK installation files
+  file:
+    path: "{{ openjdk_install_directory }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+
+- name: Create OpenJDK shell environment configuration
+  template:
+    src: openjdk.sh.j2
+    dest: /etc/profile.d/openjdk.sh
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Remount tmpfs filesystem at /tmp with 'noexec' option
   ansible.posix.mount:

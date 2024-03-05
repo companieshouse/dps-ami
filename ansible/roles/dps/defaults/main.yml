@@ -2,7 +2,7 @@
 
 # Apache Tomcat
 tomcat_version: '10.1.18'
-tomcat_install_directory: /opt/informix-client-sdk/{{ tomcat_version }}
+tomcat_install_directory: /opt/tomcat/{{ tomcat_version }}
 
 # Informix Client SDK
 informix_sdk_version: '410UC12'

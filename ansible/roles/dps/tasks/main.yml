@@ -8,6 +8,9 @@
       - nss
     state: latest
 
+- name: Upgrade pip
+  command: "pip install --upgrade pip"
+
 - name: Set timezone to Europe/London
   community.general.timezone:
     name: Europe/London

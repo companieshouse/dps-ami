@@ -333,6 +333,13 @@
     opts: noexec
     state: remounted
 
+- name: Install additional tooling
+  yum:
+    name:
+      - ksh
+      - sharutils
+    state: latest
+
 - name: Find authorized_keys and shell history files
   find:
     paths:

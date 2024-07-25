@@ -1,5 +1,13 @@
 ---
 
+- name: Update CA certificates
+  yum:
+    name:
+      - curl
+      - ca-certificates
+      - nss
+    state: latest
+
 - name: Set timezone to Europe/London
   community.general.timezone:
     name: Europe/London

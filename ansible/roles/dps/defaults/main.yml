@@ -1,5 +1,12 @@
 ---
 
+service_user_id_minimum: 1003
+service_user_id_increment: 10
+
+service_users:
+  - name: dps
+    uid: "{{ service_user_id_minimum + (0 * service_user_id_increment) | int }}"
+
 # Apache Tomcat
 tomcat_version: '10.1.18'
 tomcat_install_directory: /opt/tomcat/{{ tomcat_version }}
